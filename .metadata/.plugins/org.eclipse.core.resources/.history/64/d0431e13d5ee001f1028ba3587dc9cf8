@@ -19,7 +19,6 @@
 /* Includes ------------------------------------------------------------------*/
 #include "main.h"
 #include "usb_device.h"
-#include "usbd_cdc_if.h"
 
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
@@ -28,10 +27,6 @@
 
 /* Private typedef -----------------------------------------------------------*/
 /* USER CODE BEGIN PTD */
-struct encoder{
-	uint8_t supported_ic;
-	uint8_t address;
-};
 struct stepperMtr{
 	uint8_t en_pin;
 	uint8_t cw_pin;
@@ -39,9 +34,7 @@ struct stepperMtr{
 	uint32_t speed_setPoint;
 	uint32_t pos_setPoint;
 	uint32_t pos_openLoop;
-	uint32_t pos_sampled;
 	uint8_t dir;
-	encoder sensor;
 };typdef struct stepperMtr stpMtr;
 /* USER CODE END PTD */
 
@@ -61,8 +54,7 @@ I2C_HandleTypeDef hi2c1;
 TIM_HandleTypeDef htim4;
 
 /* USER CODE BEGIN PV */
-stpMtr stpMtr_1;
-char txBuf[15];
+
 /* USER CODE END PV */
 
 /* Private function prototypes -----------------------------------------------*/
@@ -78,15 +70,6 @@ static void MX_TIM4_Init(void);
 /* USER CODE BEGIN 0 */
 void stepper_setSpeed(uint32_t speed, uint8_t isStop=1){
 
-}
-
-void report(){
-	sprintf(txBuf,"%u\r\n",stpMtr_1.pos_openLoop);
-	CDC_Transmit_FS((uint8_t*)txBuf,strlen(txBuf));
-}
-
-void as5600_i2c_sample{
-	HAL_I2C_Master_Transmit(&hi2c1, stpMtr.sensor.address, (uint8_t*)txBuf, sizeof(txBuf), 1000);
 }
 /* USER CODE END 0 */
 
