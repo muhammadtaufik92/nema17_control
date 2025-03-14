@@ -30,8 +30,8 @@
 /* USER CODE BEGIN PTD */
 struct encoder{
 	uint8_t supported_ic;
-	uint8_t address;
-};
+	uint16_t address;
+};typedef struct encoder encoder;
 struct stepperMtr{
 	uint8_t en_pin;
 	uint8_t cw_pin;
@@ -42,7 +42,7 @@ struct stepperMtr{
 	uint32_t pos_sampled;
 	uint8_t dir;
 	encoder sensor;
-};typdef struct stepperMtr stpMtr;
+};typedef struct stepperMtr stpMtr;
 /* USER CODE END PTD */
 
 /* Private define ------------------------------------------------------------*/
@@ -76,17 +76,17 @@ static void MX_TIM4_Init(void);
 
 /* Private user code ---------------------------------------------------------*/
 /* USER CODE BEGIN 0 */
-void stepper_setSpeed(uint32_t speed, uint8_t isStop=1){
+void stepper_setSpeed(uint32_t speed, uint8_t isStop){
 
 }
 
 void report(){
-	sprintf(txBuf,"%u\r\n",stpMtr_1.pos_openLoop);
+	sprintf(txBuf,"%lu\r\n",stpMtr_1.pos_openLoop);
 	CDC_Transmit_FS((uint8_t*)txBuf,strlen(txBuf));
 }
 
-void as5600_i2c_sample{
-	HAL_I2C_Master_Transmit(&hi2c1, stpMtr.sensor.address, (uint8_t*)txBuf, sizeof(txBuf), 1000);
+void as5600_i2c_sample(){
+	HAL_I2C_Master_Transmit(&hi2c1, stpMtr_1.sensor.address, (uint8_t*)txBuf, sizeof(txBuf), 1000);
 }
 /* USER CODE END 0 */
 
@@ -122,8 +122,8 @@ int main(void)
   MX_TIM4_Init();
   MX_USB_DEVICE_Init();
   /* USER CODE BEGIN 2 */
-  HAL_TIM_PWM_Start(&htim2, TIM_CHANNEL_3);
-  HAL_TIM_PWM_Stop(&htim2, TIM_CHANNEL_3);
+  HAL_TIM_PWM_Start(&htim4, TIM_CHANNEL_3);
+  HAL_TIM_PWM_Stop(&htim4, TIM_CHANNEL_3);
   /* USER CODE END 2 */
 
   /* Infinite loop */
